@@ -1,7 +1,7 @@
 """Constants for evohomesecurity API library."""
 
 NAME = "evohomesecurity"
-VERSION = "0.0.1"
+VERSION = "1.0.0"
 
 BASE_URL = "https://tc20e.total-connect.eu/applicationservice/domoweb"
 
