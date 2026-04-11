@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "evohomesecurity"
+version = "0.0.1"
+authors = [
+  { name="pujum", email="pujum26@gmail.com" },
+]
+description = "A Python wrapper for the evohome Security API, used by the Home Assistant integration."
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License"
+]
+dependencies = [
+    "aiohttp >= 3.0.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/pujum/evohomesecurity"
+"Bug Tracker" = "https://github.com/pujum/evohomesecurity/issues"
