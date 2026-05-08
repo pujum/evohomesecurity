@@ -81,7 +81,7 @@ class EvohomeSecurityApiClient:
 
     async def async_logout(self) -> bool:
         """Logout and destroy token"""
-        if not self._token_valid:
+        if not self.token_valid:
             return True
 
         if self._session is None:
@@ -200,7 +200,7 @@ class EvohomeSecurityApiClient:
         """Refresh token if required"""
         if self._session is None:
             self._session = aiohttp.ClientSession()
-        if not self._token_valid:
+        if not self.token_valid:
             await self.async_login()
         return True
 
@@ -305,7 +305,7 @@ class EvohomeSecurityApiClient:
         return headers
 
     @property
-    def _token_valid(self) -> bool:
+    def token_valid(self) -> bool:
         if self._token is None:
             return False
         elif self._token_expiry and self._token_expiry < datetime.now():
