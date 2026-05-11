@@ -107,15 +107,6 @@ class EvohomeSecurityApiClient:
 
         return True
 
-    # Session management
-
-    async def async_keep_alive(self) -> bool:
-        """Keep the session alive"""
-        await self._async_auto_refresh()
-        await self.async_get_services()
-        self._token_expiry = datetime.now() + timedelta(seconds=self._session_timeout)
-        return True
-
     # Panel state
 
     async def async_set_full_arm(self) -> bool:
