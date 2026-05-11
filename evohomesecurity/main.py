@@ -160,6 +160,7 @@ class EvohomeSecurityApiClient:
                 if 'service' not in data or len(data['service']) == 0:
                     raise ApiException("Failed to retrieve services")
                 self._services = data['service']
+        self._update_token_expiry()
         return True
 
     # Event log
@@ -256,6 +257,8 @@ class EvohomeSecurityApiClient:
                         await asyncio.sleep(RETRY_DELAY)
                     else:
                         raise
+
+        self._update_token_expiry()
         return parsed_data
 
     async def _async_set_state(self, cmd:str, verify_state:Optional[PanelState]=None) -> bool:
