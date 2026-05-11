@@ -4,7 +4,7 @@ import aiohttp
 import asyncio
 import logging
 from datetime import datetime, timedelta
-from typing import Optional, Self, Tuple, Dict, Any, Callable
+from typing import Optional, Dict, Any, Callable
 from .const import VERSION, BASE_URL, NAME, RETRY_DELAY, RETRY_LIMIT
 from .dataclass import Event
 from .enum import PanelState
