@@ -5,7 +5,7 @@ import asyncio
 import logging
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, Callable
-from .const import VERSION, BASE_URL, NAME, RETRY_DELAY, RETRY_LIMIT
+from .const import VERSION, BASE_URL, NAME, RETRY_DELAY, RETRY_LIMIT, SESSION_RESET_DELAY
 from .dataclass import Event
 from .enum import PanelState
 from .exception import ApiException, AuthException, CmdException, ParseException
@@ -201,6 +201,8 @@ class EvohomeSecurityApiClient:
         if self._session is None:
             self._session = aiohttp.ClientSession()
         if not self.token_valid:
+            await self.async_logout()
+            await asyncio.sleep(SESSION_RESET_DELAY)
             await self.async_login()
         return True
 
