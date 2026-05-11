@@ -279,20 +279,6 @@ class EvohomeSecurityApiClient:
             parser=lambda x: x['id'] if x['status'] == "success" else None
         )
 
-    # Other stuff
-
-    async def close(self) -> None:
-        ...
-
-    async def __aenter__(self) -> Self:
-        ...
-
-    async def __aexit__(self, *_exc_info: object) -> None:
-        ...
-
-    async def _handle_api_error(self, url: str, resp: aiohttp.ClientResponse):
-        ...
-
     # Properties
 
     @property
