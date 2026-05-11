@@ -72,7 +72,7 @@ class EvohomeSecurityApiClient:
                 # Token
                 self._token = data['sessionToken']
                 self._token_creation = datetime.now()
-                self._token_expiry = datetime.now() + timedelta(seconds=self._session_timeout)
+                self._update_token_expiry()
                 
                 # Panel
                 self._panel_serial = data['panel']['account']['identificationCode']
@@ -195,6 +195,10 @@ class EvohomeSecurityApiClient:
         return True
 
     # Internal methods
+
+    def _update_token_expiry(self) -> None:
+        """Update token expiry, including a small buffer for delays"""
+        self._token_expiry = datetime.now() + timedelta(seconds=self._session_timeout) - timedelta(seconds=RETRY_DELAY)
 
     async def _async_auto_refresh(self) -> bool:
         """Refresh token if required"""
