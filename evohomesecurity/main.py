@@ -260,12 +260,11 @@ class EvohomeSecurityApiClient:
 
     async def _async_set_state(self, cmd:str, verify_state:Optional[PanelState]=None) -> bool:
         """Set panel state"""
-        parser = lambda x: x['status'] == "success"
         ret_val = await self._async_api_request(
             url=f"/panel/commands/{cmd}?isBusy=true",
             type='put',
             payload={'key': '', 'value': ''},
-            parser=parser)
+            parser=lambda x: x['status'] == "success")
         if verify_state:
             await self.async_get_state()
             ret_val = self.panel_state == verify_state
