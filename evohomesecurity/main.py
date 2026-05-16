@@ -21,22 +21,24 @@ class EvohomeSecurityApiClient:
         """Initialise evohomesecurity API client"""
         if email is None or password is None:
             raise AuthException("Credentials not provided")
-        
+
         # Credentials
         self.email: str = email
         self._password: str = password
-        
+
         # Session
         self._session: aiohttp.ClientSession = session
         self._session_timeout: int | None = 180
-        
+
         # Token
         self._token: str | None = None
         self._token_creation: datetime | None = None
         self._token_expiry: datetime | None = None
-        
+
         # Panel
         self._panel_serial: str | None = None
+        self._panel_name: str | None = None
+        self._panel_firmware_version: str | None = None
         self._panel_state: PanelState = PanelState.UNKNOWN
 
         # Services
@@ -60,22 +62,24 @@ class EvohomeSecurityApiClient:
                 # Check HTTP status code
                 if resp.status != 200:
                     raise AuthException(f"Failed to authenticate: HTTP {resp.status} {resp.reason}")
-                
+
                 # Check API status code
                 data = await resp.json()
                 if data['code'] != 0:
                     raise AuthException(f"Failed to authenticate: API {data['code']} {data['message']}")
-                
+
                 # Session
                 self._session_timeout = data['sessionTimeout']
-                
+
                 # Token
                 self._token = data['sessionToken']
                 self._token_creation = datetime.now()
                 self._update_token_expiry()
-                
+
                 # Panel
                 self._panel_serial = data['panel']['account']['identificationCode']
+                self._panel_name = data['profile']['name']
+                self._panel_firmware_version = data['panel']['firmware']['version']
 
                 return True
 
@@ -300,6 +304,14 @@ class EvohomeSecurityApiClient:
     @property
     def panel_serial(self) -> str:
         return self._panel_serial
+
+    @property
+    def panel_name(self) -> str:
+        return self._panel_name
+
+    @property
+    def panel_firmware_version(self) -> str:
+        return self._panel_firmware_version
 
     @property
     def panel_state(self) -> PanelState:
